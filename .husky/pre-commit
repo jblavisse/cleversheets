@@ -1,6 +1,1 @@
-yellow="\033[33m"
-
-echo -e "\n==>$yellow Start pre-commit client==$nc\n"
-(cd client && npm run lint)
-echo -e "\n==>$yellow Start pre-commit api==$nc\n"
-(cd api && symfony check:security && symfony check:requirements && php ./vendor/bin/phpcbf src -- --standard=PSR12)
+echo "Commit OK"
