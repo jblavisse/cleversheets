@@ -42,6 +42,10 @@ class Cheatsheet
     #[Groups(['cheatsheet:get'])]
     private Collection $sections;
 
+    #[ORM\ManyToOne(inversedBy: 'category')]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get'])]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->sections = new ArrayCollection();
@@ -90,6 +94,18 @@ class Cheatsheet
                 $section->setCheatsheet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
