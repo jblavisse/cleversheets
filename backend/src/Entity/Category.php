@@ -3,14 +3,47 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bundle\MakerBundle\Maker\MakeMessage;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource]
+#[GetCollection(
+    name: 'get_categories',
+    uriTemplate: '/categories',
+    normalizationContext: ['groups' => ['category:get_collection']],
+)]
+#[Get(
+    name: 'get_category',
+    uriTemplate: '/categories/{id}',
+    normalizationContext: ['groups' => ['category:get']],
+)]
+#[UniqueEntity(fields: ['name'], message: 'Category with this name already exists.')]
+#[Post(
+    name: 'create_category',
+    uriTemplate: '/categories',
+    normalizationContext: ['groups' => ['category:create']],
+)]
+#[Put(
+    name: 'update_category',
+    uriTemplate: '/categories/{id}',
+    normalizationContext: ['groups' => ['category:update']],
+)]
+#[Delete(
+    name: 'delete_category',
+    uriTemplate: '/categories/{id}',
+    denormalizationContext: ['groups' => ['category:delete']],
+)]
 class Category
 {
     #[ORM\Id]
@@ -19,7 +52,7 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:create', 'category:update', 'category:delete'])]
     private ?string $name = null;
 
     /**
