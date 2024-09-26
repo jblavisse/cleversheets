@@ -1,10 +1,10 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtPage />
   </div>
 </template>
 
 <script setup lang="ts">
-import 'primeicons/primeicons.css'
+  import 'primeicons/primeicons.css'
 </script>
