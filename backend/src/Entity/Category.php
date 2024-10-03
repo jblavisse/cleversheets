@@ -49,16 +49,18 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:get'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:create', 'category:update', 'category:delete'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:get_collection', 'category:get', 'category:create', 'category:update', 'category:delete'])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Cheatsheet>
      */
-    #[ORM\OneToMany(targetEntity: Cheatsheet::class, mappedBy: 'category')]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Cheatsheet::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['category:get'])]
     private Collection $category;
 
     public function __construct()
