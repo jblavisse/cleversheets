@@ -30,11 +30,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
     name: 'create_cheatsheet',
     uriTemplate: '/cheatsheets',
     normalizationContext: ['groups' => ['cheatsheet:create']],
+    denormalizationContext: ['groups' => ['cheatsheet:create']],
 )]
 #[Put(
     name: 'update_cheatsheet',
     uriTemplate: '/cheatsheets/{id}',
     normalizationContext: ['groups' => ['cheatsheet:update']],
+    denormalizationContext: ['groups' => ['cheatsheet:update']],
 )]
 #[Delete(
     name: 'delete_cheatsheet',
@@ -50,18 +52,19 @@ class Cheatsheet
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update'])]
     private ?string $title = null;
 
     /**
      * @var Collection<int, Section>
      */
-    #[ORM\OneToMany(targetEntity: Section::class, mappedBy: 'cheatsheet')]
-    #[Groups(['cheatsheet:get'])]
+    #[ORM\OneToMany(targetEntity: Section::class, mappedBy: 'cheatsheet', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update'])]
     private Collection $sections;
 
     #[ORM\ManyToOne(inversedBy: 'category')]
-    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get'])]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update'])]
     private ?Category $category = null;
 
     public function __construct()
