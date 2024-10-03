@@ -20,7 +20,6 @@ const MyPreset = definePreset(Aura, {
   }
 });
 
-
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
@@ -31,8 +30,13 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       theme: {
-          preset: MyPreset
-      }
+          preset: MyPreset,
+      },
+      ripple: true,
     }
-  }
+  },
+  css: [
+    'primeflex/primeflex.css',
+    'primeicons/primeicons.css',
+  ]
 })
