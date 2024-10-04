@@ -1,9 +1,8 @@
 <template>
     <div>
-      <CheatsheetForm />
+      <h1>Home</h1>
     </div>
 </template>
 
 <script lang="ts" setup>
-    import CheatsheetForm from '~/components/CheatsheetForm.vue'
 </script>
