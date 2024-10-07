@@ -18,7 +18,6 @@
                 <a v-ripple class="flex items-center" v-bind="props.action">
                     <span :class="item.icon" />
                     <span class="ml-2">{{ item.label }}</span>
-                    <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" />
                     <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
                     <i v-if="hasSubmenu" :class="['pi pi-angle-down', { 'pi-angle-down ml-2': root, 'pi-angle-right ml-auto': !root }]" />
                 </a>
@@ -35,15 +34,33 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const items = ref([
     {
         label: 'Home',
         icon: 'pi pi-home',
+        command: () => {
+            router.push('/')
+        }
     },
     {
         label: 'Cheat Sheets',
-        icon: 'pi pi-star'
+        icon: 'pi pi-star',
+        command: () => {
+            router.push('/cheatsheets')
+        },
+        items: [
+            {
+                label: 'Create',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.push('/cheatsheets/create')
+                }
+            }
+        ]
     },
     {
         label: 'Projects',
