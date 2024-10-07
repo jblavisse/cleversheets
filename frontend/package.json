@@ -19,6 +19,7 @@
     "primevue": "^4.0.7",
     "quill": "^2.0.2",
     "uuid": "^10.0.0",
+    "vee-validate": "^4.13.2",
     "vue": "latest",
     "vue-router": "latest"
   },
