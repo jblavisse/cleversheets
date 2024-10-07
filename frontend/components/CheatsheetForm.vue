@@ -1,19 +1,24 @@
 <template>
   <div>
     <div>
-      <h1>Créer une Cheatsheet</h1>
-      <form @submit.prevent="submitForm">
+      <h1>Create Cheatsheet</h1>
+      <VForm @submit="submitForm">
         <!-- Champ de Titre Général -->
         <div class="field">
-          <FloatLabel>
-            <label for="cheatsheetTitle">Titre de la Cheatsheet</label>
-            <InputText id="cheatsheetTitle" v-model="cheatsheetTitle" type="text" required />
-          </FloatLabel>
+          <div class="flex flex-wrap mb-4 gap-2">
+            <VField v-slot="{ field, errors }" name="cheatsheetTitle" :rules="cheatsheetTitleSchema">
+              <FloatLabel>
+                <label for="cheatsheetTitle">Title of the cheatsheet</label>
+                <InputText v-bind="field" id="cheatsheetTitle" v-model="cheatsheetTitle" name="cheatsheetTitle" type="text" required />
+              </FloatLabel>
+              <Message v-if="errors.length" severity="error">{{ errors[0] }}</Message>
+            </VField>
+          </div>
         </div>
 
         <!-- Champ de Sélection de Catégorie -->
         <div class="field">
-          <Select id="category" v-model="selectedCategory" :options="categories" option-label="name" option-value="@id" placeholder="Sélectionnez une catégorie" editable required />
+          <Select id="category" v-model="selectedCategory" :options="categories" option-label="name" option-value="@id" placeholder="Select a category" editable required />
         </div>
 
         <!-- Sections (Blocs) -->
@@ -21,7 +26,7 @@
           <div class="field">
             <FloatLabel>
               <label>Section {{ blockIndex + 1 }}</label>
-              <InputText v-model="block.title" type="text" placeholder="Titre de la section" required />
+              <InputText v-model="block.title" type="text" placeholder="Section Title" required />
             </FloatLabel>
           </div>
 
@@ -44,7 +49,7 @@
               type="button"
               severity="info"
               icon="pi pi-plus"
-              label="Ajouter une ligne de contenu"
+              label="Add a content line"
               @click="addContent(blockIndex)"
             />
 
@@ -52,7 +57,7 @@
             <Button
               type="button"
               severity="danger"
-              label="Supprimer la section"
+              label="Delete section"
               icon="pi pi-times"
               @click="removeBlock(blockIndex)"
             />
@@ -64,7 +69,7 @@
           <Button
             type="button"
             severity="info"
-            label="Ajouter une section"
+            label="Add a section"
             icon="pi pi-folder-plus"
             @click="addBlock"
           />
@@ -74,11 +79,11 @@
             type="submit"
             severity="success"
             :loading="isLoading"
-            label="Publier"
+            label="Publish"
             icon="pi pi-check"
           />
         </div>
-      </form>
+      </VForm>
     </div>
   </div>
 </template>
@@ -87,12 +92,16 @@
 import { ref, onMounted } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
+import * as yup from 'yup';
+import { Field as VField, Form as VForm } from 'vee-validate';
 
 // Import PrimeVue Components (PrimeVue v4)
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Editor from 'primevue/editor'
 import type { Category, Block, Content } from '../types/cheatsheet'
+
+const config = useRuntimeConfig();
 
 // State
 const cheatsheetTitle = ref<string>('')
@@ -103,17 +112,23 @@ const isLoading = ref(false)
 const categories = ref<Category[]>([])
 const selectedCategory = ref<string>('') // IRI de la catégorie sélectionnée
 
+const cheatsheetTitleSchema = yup
+  .string()
+  .min(3, 'The title must contain at least 3 characters')
+  .max(100, 'The title must not exceed 100 characters.')
+  .required('Title is required');
+
 // Fetch categories au montage
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/categories', {
+    const response = await axios.get(`${config.public.apiBaseUrl}/categories`, {
       headers: {
         'Content-Type': 'application/json'
       }
     })
     categories.value = response.data['member']
   } catch (error) {
-    console.error('Erreur lors du chargement des catégories:', error)
+    console.error('Error', error)
   }
 })
 
@@ -159,7 +174,7 @@ const submitForm = async () => {
       category: selectedCategory.value
     }
 
-    const response = await axios.post('http://localhost:8000/api/cheatsheets', payload, {
+    const response = await axios.post(`${config.public.apiBaseUrl}/cheatsheets`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
