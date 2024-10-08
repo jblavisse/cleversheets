@@ -56,6 +56,6 @@ RUN mkdir -p /backend/var/cache/prod && \
 # Run Composer and clear cache, then start Apache
 CMD composer install --no-dev --optimize-autoloader --no-interaction && \
     APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear && \
-    php bin/console lexik:jwt:generate-keypair --overwrite && \
+    #php bin/console lexik:jwt:generate-keypair --overwrite && \
     #php bin/console asset-map:compile && \
     apache2-foreground
