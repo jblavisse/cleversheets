@@ -1,15 +1,15 @@
 services:
-  api:
-    container_name: sheetdeck-api
-    build:
-      context: ./
-      dockerfile: ./docker/backend/Dockerfile
-    restart: always
-    ports:
-      - 8088:80
-    env_file:
-      - stack.env
-    pull_policy: build
+  # api:
+  #   container_name: sheetdeck-api
+  #   build:
+  #     context: ./
+  #     dockerfile: ./docker/backend/Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 8088:80
+  #   env_file:
+  #     - stack.env
+  #   pull_policy: build
   nuxt:
     container_name: sheetdeck-frontend
     build:
@@ -17,7 +17,7 @@ services:
       dockerfile: ./docker/frontend/Dockerfile
     restart: always
     ports:
-      - "3000:80"
+      - "3000:3000"
     environment:
       NODE_ENV: production
     volumes:
