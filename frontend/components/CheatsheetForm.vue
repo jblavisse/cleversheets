@@ -89,28 +89,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import axios from 'axios'
+import { ref, onMounted } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import * as yup from 'yup';
 import { Field as VField, Form as VForm } from 'vee-validate';
 
 // Import PrimeVue Components (PrimeVue v4)
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Editor from 'primevue/editor'
-import type { Category, Block, Content } from '../types/cheatsheet'
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Editor from 'primevue/editor';
+import type { Category, Block, Content } from '../types/cheatsheet';
 
 const config = useRuntimeConfig();
 
 // State
-const cheatsheetTitle = ref<string>('')
-const blocks = ref<Block[]>([])
-const isLoading = ref(false)
+const cheatsheetTitle = ref<string>('');
+const blocks = ref<Block[]>([]);
+const isLoading = ref(false);
 
 // Pour les catégories
-const categories = ref<Category[]>([])
-const selectedCategory = ref<string>('') // IRI de la catégorie sélectionnée
+const categories = ref<Category[]>([]);
+const selectedCategory = ref<string>(''); // IRI de la catégorie sélectionnée
 
 const cheatsheetTitleSchema = yup
   .string()
@@ -125,12 +125,12 @@ onMounted(async () => {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
-    categories.value = response.data['member']
+    });
+    categories.value = response.data['member'];
   } catch (error) {
-    console.error('Error', error)
+    console.error('Error', error);
   }
-})
+});
 
 // Méthodes avec uuid
 const addBlock = () => {
@@ -138,32 +138,32 @@ const addBlock = () => {
     id: uuidv4(),
     title: '',
     contents: []
-  })
-}
+  });
+};
 
 const removeBlock = (blockIndex: number) => {
-  blocks.value.splice(blockIndex, 1)
-}
+  blocks.value.splice(blockIndex, 1);
+};
 
 const addContent = (blockIndex: number) => {
-  const block = blocks.value[blockIndex]
-  const newContentId = uuidv4()
+  const block = blocks.value[blockIndex];
+  const newContentId = uuidv4();
   const newContent: Content = {
     id: newContentId,
     values: {
       'fixed-column-id': ''
     }
-  }
+  };
 
-  block.contents.push(newContent)
-}
+  block.contents.push(newContent);
+};
 
 const removeContent = (blockIndex: number, contentIndex: number) => {
-  blocks.value[blockIndex].contents.splice(contentIndex, 1)
-}
+  blocks.value[blockIndex].contents.splice(contentIndex, 1);
+};
 
 const submitForm = async () => {
-  isLoading.value = true
+  isLoading.value = true;
   try {
     const payload = {
       title: cheatsheetTitle.value,
@@ -172,37 +172,37 @@ const submitForm = async () => {
         content: block.contents.map(content => content.values['fixed-column-id']).join("\n")
       })),
       category: selectedCategory.value
-    }
+    };
 
     const response = await axios.post(`${config.public.apiBaseUrl}/cheatsheets`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
+    });
 
     if (response.status === 201 || response.status === 200) {
-      alert('Cheatsheet enregistrée avec succès!')
-      cheatsheetTitle.value = ''
-      blocks.value = []
-      selectedCategory.value = ''
-      addBlock()
+      alert('Cheatsheet enregistrée avec succès!');
+      cheatsheetTitle.value = '';
+      blocks.value = [];
+      selectedCategory.value = '';
+      addBlock();
     } else {
-      throw new Error('Erreur lors de l\'enregistrement')
+      throw new Error('Erreur lors de l\'enregistrement');
     }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    alert('Une erreur est survenue: ' + (error.response?.data?.message || error.message))
+    alert('Une erreur est survenue: ' + (error.response?.data?.message || error.message));
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getCategoryName = (categoryIri: string): string => {
-  const category = categories.value.find(cat => `/api/categories/${cat.id}` === categoryIri)
-  return category ? category.name : 'Inconnu'
-}
+  const category = categories.value.find(cat => `/api/categories/${cat.id}` === categoryIri);
+  return category ? category.name : 'Inconnu';
+};
 
 // Initialiser avec un bloc par défaut
-addBlock()
+addBlock();
 </script>

@@ -43,21 +43,21 @@ const items = ref([
         label: 'Home',
         icon: 'pi pi-home',
         command: () => {
-            router.push('/')
+            router.push('/');
         }
     },
     {
         label: 'Cheat Sheets',
         icon: 'pi pi-star',
         command: () => {
-            router.push('/cheatsheets')
+            router.push('/cheatsheets');
         },
         items: [
             {
                 label: 'Create',
                 icon: 'pi pi-plus',
                 command: () => {
-                    router.push('/cheatsheets/create')
+                    router.push('/cheatsheets/create');
                 }
             }
         ]

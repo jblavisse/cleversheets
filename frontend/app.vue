@@ -8,12 +8,11 @@
 </template>
 
 <script setup lang="ts">
-import Header from './components/Base/Header.vue'
+import Header from './components/Base/Header.vue';
+import 'primeicons/primeicons.css';
 </script>
 
 <style>
-import 'primeicons/primeicons.css'
-
 .container {
   max-width: 1320px;
   margin: 0 auto;
