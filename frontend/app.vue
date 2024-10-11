@@ -12,6 +12,8 @@ import Header from './components/Base/Header.vue'
 </script>
 
 <style>
+import 'primeicons/primeicons.css'
+
 .container {
   max-width: 1320px;
   margin: 0 auto;
