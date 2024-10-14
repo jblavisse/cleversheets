@@ -1,1 +1,8 @@
-echo "Commit OK"
+#!/bin/sh
+# husky
+# ESLint et vue-tsc
+echo "Running ESLint..."
+(cd frontend && npx eslint .)
+
+echo "Running vue-tsc..."
+(cd frontend && npx vue-tsc --noEmit)

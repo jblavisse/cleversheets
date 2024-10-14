@@ -1,10 +1,21 @@
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+  <div class="container">
+    <Header />
+    <Panel class="mt-2">
+      <NuxtPage />
+    </Panel>
   </div>
 </template>
 
 <script setup lang="ts">
-import 'primeicons/primeicons.css'
+import Header from './components/Base/Header.vue';
+import 'primeicons/primeicons.css';
 </script>
+
+<style>
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0.75rem;
+}
+</style>
