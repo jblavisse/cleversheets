@@ -2,17 +2,17 @@
   <div>
     <div>
       <h1>Create Cheatsheet</h1>
-      <VForm @submit="submitForm">
+      <Form @submit="submitForm">
         <!-- Champ de Titre Général -->
         <div class="field">
           <div class="flex flex-wrap mb-4 gap-2">
-            <VField v-slot="{ field, errors }" name="cheatsheetTitle" :rules="cheatsheetTitleSchema">
+            <Field name="cheatsheetTitle">
               <FloatLabel>
                 <label for="cheatsheetTitle">Title of the cheatsheet</label>
-                <InputText v-bind="field" id="cheatsheetTitle" v-model="cheatsheetTitle" name="cheatsheetTitle" type="text" required />
+                <InputText v-bind="titleAttrs" id="cheatsheetTitle" v-model="cheatsheetTitle" name="cheatsheetTitle" type="text" required />
               </FloatLabel>
-              <Message v-if="errors.length" severity="error">{{ errors[0] }}</Message>
-            </VField>
+              <Message v-if="errors.cheatsheetTitle" severity="error">{{ errors.cheatsheetTitle }}</Message>
+            </Field>
           </div>
         </div>
 
@@ -83,7 +83,7 @@
             icon="pi pi-check"
           />
         </div>
-      </VForm>
+      </Form>
     </div>
   </div>
 </template>
@@ -92,19 +92,20 @@
 import { ref, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
-import * as yup from 'yup';
-import { Field as VField, Form as VForm } from 'vee-validate';
+import { z } from 'zod';
+import { Field, Form, useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
 
 // Import PrimeVue Components (PrimeVue v4)
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Editor from 'primevue/editor';
+
 import type { Category, Block, Content } from '../types/cheatsheet';
 
 const config = useRuntimeConfig();
 
 // State
-const cheatsheetTitle = ref<string>('');
 const blocks = ref<Block[]>([]);
 const isLoading = ref(false);
 
@@ -112,11 +113,18 @@ const isLoading = ref(false);
 const categories = ref<Category[]>([]);
 const selectedCategory = ref<string>(''); // IRI de la catégorie sélectionnée
 
-const cheatsheetTitleSchema = yup
-  .string()
-  .min(3, 'The title must contain at least 3 characters')
-  .max(100, 'The title must not exceed 100 characters.')
-  .required('Title is required');
+const { errors, defineField } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      cheatsheetTitle:
+      z.string()
+      .min(3, 'The title must contain at least 3 characters')
+      .max(100, 'The title must not exceed 100 characters.'),
+    }),
+  ),
+});
+
+const [cheatsheetTitle, titleAttrs] = defineField('cheatsheetTitle');
 
 // Fetch categories au montage
 onMounted(async () => {
@@ -189,18 +197,11 @@ const submitForm = async () => {
     } else {
       throw new Error('Erreur lors de l\'enregistrement');
     }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    alert('Une erreur est survenue: ' + (error.response?.data?.message || error.message));
+  } catch (error) {
+    alert('Une erreur est survenue: ' + (error));
   } finally {
     isLoading.value = false;
   }
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getCategoryName = (categoryIri: string): string => {
-  const category = categories.value.find(cat => `/api/categories/${cat.id}` === categoryIri);
-  return category ? category.name : 'Inconnu';
 };
 
 // Initialiser avec un bloc par défaut
