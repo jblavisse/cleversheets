@@ -20,7 +20,7 @@ RUN apt-get update -qq && \
 # Add and install PHP extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions opcache intl pdo_mysql
+    install-php-extensions opcache intl docker-php-ext-install pdo pdo_mysql
 
 # Copy and configure PHP settings
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
