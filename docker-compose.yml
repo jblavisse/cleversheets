@@ -29,24 +29,24 @@ services:
       NODE_ENV: production
     volumes:
       - ./:/frontend
-  # database:
-  #   container_name: sheetdeck-database
-  #   image: mysql:latest
-  #   restart: always
-  #   environment:
-  #       MYSQL_DATABASE: ${DB_NAME}
-  #       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-  #   # ports:
-  #   #     - 3366:3306
-  #   volumes:
-  #       - db-data:/var/lib/mysql
-  # phpmyadmin:
-  #   container_name: sheetdeck-phpmyadmin
-  #   image: phpmyadmin:latest
-  #   restart: always
-  #   ports:
-  #       - 8001:80
-  #   environment:
-  #       - PMA_HOST=database
-# volumes:
-#     db-data:
+  database:
+    container_name: sheetdeck-database
+    image: mysql:latest
+    restart: always
+    environment:
+        MYSQL_DATABASE: ${DB_NAME}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    # ports:
+    #     - 3366:3306
+    volumes:
+        - db-data:/var/lib/mysql
+  phpmyadmin:
+    container_name: sheetdeck-phpmyadmin
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+        - 8001:80
+    environment:
+        - PMA_HOST=database
+volumes:
+    db-data:
