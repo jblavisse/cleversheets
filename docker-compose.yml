@@ -12,8 +12,8 @@ services:
     #   APP_ENV: ${APP_ENV}
     #   APP_SECRET: ${APP_SECRET}
     #   CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
-    # env_file:
-    #   - ./backend/stack.env
+    env_file:
+      - ./backend/stack.env
     pull_policy: build
     depends_on:
       - database
