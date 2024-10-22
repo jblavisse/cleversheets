@@ -30,8 +30,17 @@ export default defineNuxtConfig({
   },
   modules: [
     '@primevue/nuxt-module',
-    '@nuxt/eslint'
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt'
   ],
+  piniaPluginPersistedstate: {
+    storage: 'cookies',
+    cookieOptions: {
+      sameSite: 'lax',
+    },
+    debug: true,
+  },
   primevue: {
     options: {
       theme: {
