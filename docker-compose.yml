@@ -1,0 +1,52 @@
+services:
+  api:
+    container_name: sheetdeck-api
+    build:
+      context: ./
+      dockerfile: ./docker/backend/Dockerfile
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+        DATABASE_URL: ${DATABASE_URL}
+    #   APP_ENV: ${APP_ENV}
+    #   APP_SECRET: ${APP_SECRET}
+    #   CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
+    env_file:
+      - ./backend/stack.env
+    pull_policy: build
+    depends_on:
+      - database
+  nuxt:
+    container_name: sheetdeck-frontend
+    build:
+      context: ./
+      dockerfile: ./docker/frontend/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./:/frontend
+  database:
+    container_name: sheetdeck-database
+    image: mysql:latest
+    restart: always
+    environment:
+        MYSQL_DATABASE: ${DB_NAME}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    # ports:
+    #     - 3366:3306
+    volumes:
+        - db-data:/var/lib/mysql
+  phpmyadmin:
+    container_name: sheetdeck-phpmyadmin
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+        - 8001:80
+    environment:
+        - PMA_HOST=database
+volumes:
+    db-data:
