@@ -129,7 +129,7 @@ const [cheatsheetTitle, titleAttrs] = defineField('cheatsheetTitle');
 // Fetch categories au montage
 onMounted(async () => {
   try {
-    const response = await axios.get(`${config.public.apiBaseUrl}/categories`, {
+    const response = await axios.get(`${config.public.apiBaseUrl}/api/categories`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -182,7 +182,7 @@ const submitForm = async () => {
       category: selectedCategory.value
     };
 
-    const response = await axios.post(`${config.public.apiBaseUrl}/cheatsheets`, payload, {
+    const response = await axios.post(`${config.public.apiBaseUrl}/api/cheatsheets`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
