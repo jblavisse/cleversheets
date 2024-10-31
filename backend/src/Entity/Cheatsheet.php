@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -17,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CheatsheetRepository::class)]
 #[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ['category' => 'exact'])]
 #[GetCollection(
     name: 'get_cheatsheets',
     uriTemplate: '/cheatsheets',
@@ -67,7 +70,7 @@ class Cheatsheet
      * @var Collection<int, Section>
      */
     #[ORM\OneToMany(targetEntity: Section::class, mappedBy: 'cheatsheet', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update'])]
     private Collection $sections;
 
     #[ORM\ManyToOne(inversedBy: 'category')]
