@@ -1,4 +1,3 @@
-
 <template>
     <div class="card">
         <Menubar :model="items">
@@ -24,8 +23,9 @@
             </template>
             <template #end>
                 <div class="flex items-center gap-2">
+                    <Button icon="pi pi-moon" aria-label="Save" @click="toggleDarkMode" />
                     <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-                    <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />
+                    <Button icon="pi pi-user" aria-label="Save" @click="login" />
                 </div>
             </template>
         </Menubar>
@@ -37,6 +37,15 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+function toggleDarkMode() {
+    document.documentElement.classList.toggle('my-app-dark');
+}
+
+function login() {
+    router.push('/login');
+}
+
 
 const items = ref([
     {
@@ -59,46 +68,6 @@ const items = ref([
                 command: () => {
                     router.push('/cheatsheets/create');
                 }
-            }
-        ]
-    },
-    {
-        label: 'Projects',
-        icon: 'pi pi-search',
-        items: [
-            {
-                label: 'Core',
-                icon: 'pi pi-bolt',
-                shortcut: '⌘+S'
-            },
-            {
-                label: 'Blocks',
-                icon: 'pi pi-server',
-                shortcut: '⌘+B'
-            },
-            {
-                label: 'UI Kit',
-                icon: 'pi pi-pencil',
-                shortcut: '⌘+U'
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'Templates',
-                icon: 'pi pi-palette',
-                items: [
-                    {
-                        label: 'Apollo',
-                        icon: 'pi pi-palette',
-                        badge: 2
-                    },
-                    {
-                        label: 'Ultima',
-                        icon: 'pi pi-palette',
-                        badge: 3
-                    }
-                ]
             }
         ]
     },
