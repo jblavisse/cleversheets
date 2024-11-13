@@ -8,8 +8,8 @@
         <div class="cheatsheet-title">{{ cheatsheet.title }}</div>
         <div class="category-label">{{ cheatsheet.category.name }}</div>
         <div class="cheatsheet-content">
-            <p>{{ cheatsheet.sections[0].title }}</p>
-            <!--<div v-html="sanitizeContent(cheatsheet.sections[0].content)" class="content"></div>-->
+            <h3>{{ cheatsheet.sections[0].title }}</h3>
+            <MarkdownRenderer :source="cheatsheet.sections[0]?.content" />
             <div class="cheatsheet-footer">
             See: The &lt;a&gt; Attributes
             </div>
@@ -22,9 +22,7 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted, watch, nextTick } from "vue";
-import hljs from 'highlight.js';
-import 'highlight.js/styles/nord.css';
-// import DOMPurify from 'dompurify';
+import MarkdownRenderer from '~/components/MarkdownRenderer.vue';
 
 const cheatsheets = ref([]);
 const loading = ref(false);
@@ -47,19 +45,6 @@ const fetchCheatsheets = async () => {
     }
 };
 
-// Fonction pour nettoyer le contenu HTML
-// function sanitizeContent(htmlContent) {
-//     return DOMPurify.sanitize(htmlContent);
-// }
-
-// Fonction pour appliquer le surlignage de syntaxe
-function highlightCodeBlocks() {
-    const codeBlocks = document.querySelectorAll('pre code');
-    codeBlocks.forEach((block) => {
-    hljs.highlightElement(block);
-    });
-}
-
 // Charger les cheatsheets dès que la page est montée
 onMounted(() => {
     fetchCheatsheets();
@@ -72,7 +57,6 @@ function watchCheatsheets() {
     () => cheatsheets.value,
     () => {
         nextTick(() => {
-        highlightCodeBlocks();
         });
     },
     { deep: true }
@@ -89,7 +73,6 @@ function watchCheatsheets() {
     gap: 20px;
 }
 .cheatsheet {
-    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -114,15 +97,6 @@ function watchCheatsheets() {
 }
 .cheatsheet-content {
     padding: 20px;
-}
-.content pre {
-    background-color: #2d2d2d;
-    padding: 1em;
-    border-radius: 5px;
-    overflow-x: auto;
-}
-.content code {
-    color: #f8f8f2;
 }
 .cheatsheet-footer {
     margin-top: 20px;

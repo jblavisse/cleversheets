@@ -9,7 +9,7 @@
                 <div class="category-label">{{ cheatsheet.category.name }}</div>
                 <div class="cheatsheet-content">
                     <h3>{{ cheatsheet.sections[0]?.title }}</h3>
-                    <div v-html="sanitizeContent(cheatsheet.sections[0]?.content)" class="code-block"></div>
+                    <MarkdownRenderer :source="cheatsheet.sections[0]?.content" />
                     <div class="cheatsheet-footer">
                         See: The &lt;a&gt; Attributes
                     </div>
@@ -23,7 +23,7 @@
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute } from 'vue-router';
-import DOMPurify from 'dompurify';
+import MarkdownRenderer from '~/components/MarkdownRenderer.vue';
 
 const cheatsheets = ref([]);
 const loading = ref(false);
@@ -40,7 +40,7 @@ const fetchCategoryName = async () => {
     try {
         const response = await axios.get(`${config.public.apiBaseUrl}/api/categories/${categoryId}`);
         if (response.data && response.data.name) {
-            categoryName.value = response.data.name; // Affecter le nom de la catégorie récupérée
+            categoryName.value = response.data.name;
         } else {
             throw new Error(`Catégorie avec l'ID "${route.params.slug}" non trouvée`);
         }
@@ -55,20 +55,14 @@ const fetchCheatsheets = async () => {
     error.value = null;
 
     try {
-        // Faire une requête API pour récupérer les cheatsheets de la catégorie donnée
         const response = await axios.get(`${config.public.apiBaseUrl}/api/cheatsheets?category=${categoryId}`);
-        cheatsheets.value = response.data['member']; // Accéder à la liste des cheatsheets
+        cheatsheets.value = response.data['member'];
     } catch (err) {
         error.value = err;
     } finally {
         loading.value = false;
     }
 };
-
-// Fonction pour nettoyer le contenu HTML
-function sanitizeContent(htmlContent) {
-    return DOMPurify.sanitize(htmlContent);
-}
 
 // Charger le nom de la catégorie et les cheatsheets dès que la page est montée
 onMounted(async () => {

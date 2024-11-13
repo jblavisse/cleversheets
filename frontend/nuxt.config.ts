@@ -85,5 +85,6 @@ export default defineNuxtConfig({
   css: [
     'primeflex/primeflex.css',
     'primeicons/primeicons.css',
+    'highlight.js/styles/default.css',
   ]
 });
