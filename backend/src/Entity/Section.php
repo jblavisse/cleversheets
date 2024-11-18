@@ -19,11 +19,11 @@ class Section
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update', 'section:get', 'section:create', 'section:update'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update', 'section:get', 'section:create', 'section:update'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update', 'section:get', 'section:create', 'section:update'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'cheatsheet:create', 'cheatsheet:update', 'section:get', 'section:create', 'section:update'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'sections')]

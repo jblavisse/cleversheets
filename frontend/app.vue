@@ -1,14 +1,19 @@
 <template>
   <div class="container">
+    <Toast />
     <Header />
     <Panel class="mt-2">
       <NuxtPage />
+    </Panel>
+    <Panel class="mt-2">
+      <Footer />
     </Panel>
   </div>
 </template>
 
 <script setup lang="ts">
 import Header from './components/Base/Header.vue';
+import Footer from './components/Base/Footer.vue';
 import 'primeicons/primeicons.css';
 </script>
 
