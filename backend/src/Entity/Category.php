@@ -49,7 +49,7 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:get'])]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:get_collection', 'category:get'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -62,6 +62,10 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Cheatsheet::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['category:get'])]
     private Collection $category;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['cheatsheet:get_collection', 'cheatsheet:get', 'category:get_collection', 'category:get', 'category:create', 'category:update', 'category:delete'])]
+    private ?string $color = null;
 
     public function __construct()
     {
@@ -111,6 +115,18 @@ class Category
                 $category->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }
