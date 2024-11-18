@@ -24,7 +24,7 @@
             <template #end>
                 <div class="flex items-center gap-2">
                     <Button icon="pi pi-moon" aria-label="Save" @click="toggleDarkMode" />
-                    <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
+                    <!-- <Button icon="pi pi-user" aria-label="Save" @click="login" /> -->
                     <Button icon="pi pi-user" aria-label="Save" @click="login" />
                 </div>
             </template>
