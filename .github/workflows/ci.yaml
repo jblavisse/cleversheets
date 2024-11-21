@@ -12,3 +12,5 @@ jobs:
 
       - name: Setup Docker Compose
         run: docker-compose up --build -d
+        with:
+          compose-file: ../docker-compose.yml
