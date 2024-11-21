@@ -8,4 +8,4 @@ echo "Running vue-tsc..."
 (cd frontend && npx vue-tsc --noEmit)
 
 echo "Running PHP tests..."
-(cd backend && php ./vendor/bin/phpcbf src -- --standard=PSR12)
+(cd backend && symfony check:security && php ./vendor/bin/phpcbf src -- --standard=PSR12)
