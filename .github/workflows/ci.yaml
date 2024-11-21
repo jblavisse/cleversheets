@@ -25,4 +25,4 @@ jobs:
         run: curl -sS https://get.symfony.com/cli/installer | bash
 
       - name: Security check
-        run: symfony security:check
+        run: symfony check:security
