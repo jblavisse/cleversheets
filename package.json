@@ -3,6 +3,8 @@
     "husky": "^9.1.6"
   },
   "scripts": {
+    "Cypress Open": "cd frontend && npx cypress open",
+    "PHPUnit": "cd backend && vendor/bin/phpunit",
     "prepare": "husky"
   }
 }
