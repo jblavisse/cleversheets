@@ -21,5 +21,8 @@ jobs:
       - name: Setup Docker Compose
         run: docker-compose -f docker-compose.yml up -d --build
 
+      - name: Install Symfony CLI
+        run: curl -sS https://get.symfony.com/cli/installer | bash
+
       - name: Security check
         run: symfony security:check
