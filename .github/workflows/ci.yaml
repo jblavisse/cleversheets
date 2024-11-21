@@ -1,0 +1,14 @@
+name: github-actions
+on:
+  push:
+    branches: [ "the_tests" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Docker Compose
+        run: docker-compose up --build -d
