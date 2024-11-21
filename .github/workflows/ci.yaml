@@ -24,5 +24,8 @@ jobs:
       # - name: Setup Docker Compose
       #   run: docker-compose -f docker-compose.yml up -d --build
 
+      - name: Composer install
+        run: composer install
+
       - name: Security check
         run: php bin/console security:check
