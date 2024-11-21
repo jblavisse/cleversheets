@@ -3,12 +3,15 @@ describe('template spec', () => {
     // Visite de la page de connexion
     cy.visit('http://localhost:3000/login');
 
+    // Attend que le formulaire de connexion soit présent
+    cy.wait(150);
+
     // Vérifie que le texte "Login" est présent
     cy.contains('Login').should('be.visible');
 
     // Remplit le formulaire de connexion
-    cy.get('input[type="email"]').type('user@exemple.com');
-    cy.get('input[type="password"]').type('$aA123456789');
+    cy.get('input[type="email"]').type('user@exemple.com', { delay: 100 });
+    cy.get('input[type="password"]').type('$aA123456789', { delay: 100 });
 
     // Soumet le formulaire de connexion
     cy.get('button[type="submit"]').click();
