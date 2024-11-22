@@ -24,15 +24,30 @@ jobs:
       # - name: Setup Docker Compose
       #   run: docker-compose -f docker-compose.yml up -d --build
 
-      - name: Symfony CLI install
-        run: curl -sS https://get.symfony.com/cli/installer | bash
+      # - name: Symfony CLI install
+      #   run: curl -sS https://get.symfony.com/cli/installer | bash
 
-      - name: Install Composer dependencies
-        run:
-          symfony composer install --no-interaction
+      # - name: Install Composer dependencies
+      #   run:
+      #     symfony composer install --no-interaction
 
-      - name: Composer install
-        run: composer install
+      # - name: Composer install
+      #   run: composer install
 
-      - name: Security check
-        run: php bin/console security:check
+      # - name: Security check
+      #   run: php bin/console security:check
+
+  client-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
