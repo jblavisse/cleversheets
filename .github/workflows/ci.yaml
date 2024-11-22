@@ -31,7 +31,7 @@ jobs:
           docker-compose ps
 
       - name: Run PHPUnit
-        run: docker-compose exec -T api ./vendor/bin/phpunit --testsuite ordered
+        run: docker-compose exec -T sheetdeck-api bin/phpunit
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
