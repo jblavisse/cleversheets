@@ -37,7 +37,7 @@ jobs:
 
       - name: Run PHPUnit
         working-directory: ./backend
-        run: php ./vendor/bin/phpcbf src -- --standard=PSR12
+        run: php bin/phpunit
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
