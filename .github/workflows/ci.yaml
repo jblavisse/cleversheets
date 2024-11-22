@@ -20,6 +20,14 @@ jobs:
       - name: Setup Docker
         uses: docker/setup-buildx-action@v3
 
+      - name: Build Docker images
+        uses: docker/bake-action@v4
+        with:
+          pull: true
+          load: true
+          files: |
+            ./docker-compose.yml
+
       - name: Install Docker Compose
         run: |
           sudo apt-get update
@@ -31,7 +39,7 @@ jobs:
           docker-compose ps
 
       - name: Run PHPUnit
-        run: docker-compose exec -T sheetdeck-api bin/phpunit
+        run: docker-compose exec -T php bin/phpunit
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
