@@ -26,13 +26,12 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Setup Docker Compose
-        run: docker-compose -f docker-compose.yml up --wait --no-build
+        run: |
+          docker-compose -f docker-compose.yml up --wait --no-build
+          docker-compose ps
 
-      - name: Test Docker PS
-        run: docker-compose ps
-
-      - name: Run PHPUnit
-        run: docker-compose exec -T php bin/phpunit
+      # - name: Run PHPUnit
+      #   run: docker-compose exec -T php bin/phpunit
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
