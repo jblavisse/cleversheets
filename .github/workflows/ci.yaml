@@ -28,6 +28,9 @@ jobs:
       - name: Setup Docker Compose
         run: docker-compose -f docker-compose.yml up --wait --no-build
 
+      - name: Test Docker PS
+        run: docker-compose ps
+
       - name: Run PHPUnit
         run: docker-compose exec -T php bin/phpunit
 
