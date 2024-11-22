@@ -5,15 +5,11 @@ on:
     branches: [ "the_tests" ]
 
 jobs:
-  tests:
+  php-cs-fixer:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
-    strategy:
-      matrix:
-        php-versions: ['8.2']
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
