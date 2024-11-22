@@ -10,6 +10,8 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    container:
+      image: chrisshennan/symfony-cli
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -38,11 +40,11 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: ./backend
-        run: composer install --no-interaction
+        run: symfony composer install --no-interaction
 
-      - name: Migration database
-        working-directory: ./backend
-        run: bin/console doctrine:migrations:migrate --no-interaction
+      # - name: Migration database
+      #   working-directory: ./backend
+      #   run: bin/console doctrine:migrations:migrate --no-interaction
 
       - name: Run PHPUnit
         working-directory: ./backend
