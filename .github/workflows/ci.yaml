@@ -33,7 +33,7 @@ jobs:
 
       - name: Setup Docker Compose
         run: |
-          docker compose -f docker-compose.yml up -d --build
+          docker compose -f docker-compose.yml up -d --no-build
           docker compose ps
 
       - name: Install Composer dependencies
