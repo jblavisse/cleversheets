@@ -1,37 +1,61 @@
 name: github-actions
+
 on:
   push:
     branches: [ "the_tests" ]
 
 jobs:
-  api-tests:
+  tests:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
+    strategy:
+      matrix:
+        php-versions: ['8.2']
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          php-version: '8.2'
-          extensions: mbstring, intl, pdo_sqlite
-          tools: composer:v2
+          args: --diff --dry-run
 
-      - name: Install Composer dependencies
-        run: composer install
+      # - name: Setup Docker
+      #   uses: docker/setup-buildx-action@v2
 
-  client-tests:
-    runs-on: ubuntu-latest
+      # - name: Install Docker Compose
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y docker-compose
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # - name: Setup Docker Compose
+      #   run: docker-compose -f docker-compose.yml up -d --build
 
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v6
-        # with:
-        #   build: npm run build
-        #   start: npm start
+      # - name: Symfony CLI install
+      #   run: curl -sS https://get.symfony.com/cli/installer | bash
+
+      # - name: Install Composer dependencies
+      #   run:
+      #     symfony composer install --no-interaction
+
+      # - name: Composer install
+      #   run: composer install
+
+      # - name: Security check
+      #   run: php bin/console security:check
+
+  # client-tests:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v6
+  #       with:
+  #         build: npm run build
+  #         start: npm start
