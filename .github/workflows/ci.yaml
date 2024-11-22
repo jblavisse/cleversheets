@@ -28,6 +28,9 @@ jobs:
       - name: Setup Docker Compose
         run: docker-compose -f docker-compose.yml up --wait --no-build
 
+      - name: Run PHPUnit
+        run: docker-compose exec api php ./vendor/bin/phpunit
+
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
 
