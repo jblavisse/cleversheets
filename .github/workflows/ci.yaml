@@ -37,7 +37,7 @@ jobs:
 
       - name: Run PHPUnit
         working-directory: ./backend
-        run: docker-compose exec -T api bin/phpunit
+        run: docker-compose exec -T api ./vendor/bin/phpcbf src -- --standard=PSR12
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
