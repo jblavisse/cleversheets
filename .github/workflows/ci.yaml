@@ -16,8 +16,6 @@ jobs:
 
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --diff --dry-run
 
       # - name: Setup Docker
       #   uses: docker/setup-buildx-action@v2
