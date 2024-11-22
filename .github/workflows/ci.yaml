@@ -27,7 +27,7 @@ jobs:
 
       - name: Setup Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up --wait --no-build
+          docker-compose -f docker-compose.yml up -d --build
           docker-compose ps
 
       # - name: Run PHPUnit
