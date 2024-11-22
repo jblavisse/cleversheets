@@ -30,8 +30,8 @@ jobs:
           docker-compose -f docker-compose.yml up -d --build
           docker-compose ps
 
-      # - name: Run PHPUnit
-      #   run: docker-compose exec -T php bin/phpunit
+      - name: Run PHPUnit
+        run: docker-compose exec -T sheetdeck-api bin/phpunit
 
       # - name: Symfony CLI install
       #   run: curl -sS https://get.symfony.com/cli/installer | bash
