@@ -20,21 +20,21 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, intl, pdo, pdo_mysql, zip
 
-      - name: Setup Docker
-        uses: docker/setup-buildx-action@v2
+      # - name: Setup Docker
+      #   uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker images
-        uses: docker/bake-action@v2
-        with:
-          pull: true
-          load: true
-          files: |
-            ./docker-compose.yml
+      # - name: Build Docker images
+      #   uses: docker/bake-action@v2
+      #   with:
+      #     pull: true
+      #     load: true
+      #     files: |
+      #       ./docker-compose.yml
 
-      - name: Setup Docker Compose
-        run: |
-          docker compose -f docker-compose.yml up -d --build
-          docker compose ps
+      # - name: Setup Docker Compose
+      #   run: |
+      #     docker compose -f docker-compose.yml up -d --build
+      #     docker compose ps
 
       - name: Install Composer dependencies
         working-directory: ./backend
