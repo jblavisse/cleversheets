@@ -71,10 +71,5 @@ const items = ref([
             }
         ]
     },
-    {
-        label: 'Contact',
-        icon: 'pi pi-envelope',
-        badge: 3
-    }
 ]);
 </script>
